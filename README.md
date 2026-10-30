@@ -2,7 +2,7 @@
 
 Modelo de demonstração de um sistema de reservas online (negócio e clientes fictícios).
 
-**Ver a funcionar:** https://hugobrandao05.github.io/Reservas---Demo/
+**Ver a funcionar:** https://hugobrandao05.github.io/reservas-demo/
 
 - Reserva em 3 passos: serviço, dia e hora livres, dados do cliente
 - Gestão da reserva com código (reagendar ou cancelar)
