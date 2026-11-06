@@ -82,6 +82,20 @@ details{border-bottom:1px solid var(--line);padding:12px 0}
 summary{cursor:pointer;font-weight:500}
 details p{margin:8px 0 0;color:var(--muted)}
 
+.pkgs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.pkg{border:1.5px solid var(--line);border-radius:12px;padding:16px;background:#fff;display:grid;gap:4px;cursor:pointer}
+.pkg input{width:auto;margin:0 0 4px;accent-color:var(--wine)}
+.pkg b{font-family:var(--display);font-size:26px;color:var(--wine-deep);font-variant-numeric:tabular-nums;font-weight:600}
+.pkg span{color:var(--muted);font-size:14px}
+.pkg:has(input:checked){border-color:var(--wine);background:var(--rose)}
+@media (max-width:420px){.pkgs{grid-template-columns:1fr}}
+.pay{background:#fff;border-radius:12px;padding:16px;display:grid;gap:10px}
+.pay dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
+.pay dt{color:var(--muted);font-size:14px}
+.pay dd{margin:0;font-weight:600;word-break:break-all;font-variant-numeric:tabular-nums}
+.code{font-family:var(--display);font-size:30px;color:var(--wine);letter-spacing:.06em}
+.deadline{background:var(--wine);color:var(--ivory);border-radius:10px;padding:10px 14px;font-size:15px}
+.btn.small{padding:8px 14px;font-size:14px}
 footer{padding:28px 0 40px;font-size:14px;color:var(--muted)}
 footer b{color:var(--wine-deep)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -120,7 +134,7 @@ footer b{color:var(--wine-deep)}
       <dt>Local</dt><dd>Maison BH, Luanda</dd>
       <dt>Lugares</dt><dd>50 participantes</dd>
       <dt>Organização</dt><dd>ALZENFORM</dd>
-      <dt>Entrada</dt><dd class="tbc">A confirmar</dd>
+      <dt>Entrada</dt><dd>50.000 Kz ou 80.000 Kz</dd>
     </dl>
   </section>
 
@@ -137,6 +151,19 @@ footer b{color:var(--wine-deep)}
       </label>
       <label for="zona">Município ou bairro <small>(opcional)</small>
         <input id="zona" name="zona" placeholder="Ex.: Talatona, Camama, Viana">
+      </label>
+      <fieldset>
+        <legend>Escolhe o teu pacote</legend>
+        <div class="pkgs">
+          <label class="pkg" for="pk1"><input type="radio" name="pacote" id="pk1" value="50.000 Kz"><b>50.000 Kz</b><span>Participação no LIBERTA</span></label>
+          <label class="pkg" for="pk2"><input type="radio" name="pacote" id="pk2" value="80.000 Kz"><b>80.000 Kz</b><span>Participação, brindes e fato de treino</span></label>
+        </div>
+      </fieldset>
+      <label for="tam" id="tam-wrap" hidden>Tamanho do fato de treino
+        <select id="tam" name="tam">
+          <option value="">Escolhe o tamanho</option>
+          <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+        </select>
       </label>
       <fieldset>
         <legend>És mãe?</legend>
@@ -161,11 +188,30 @@ footer b{color:var(--wine-deep)}
     </form>
 
     <div class="done" id="done" aria-live="polite">
-      <h3>Falta só um passo</h3>
-      <p>Toca no botão para enviar a tua inscrição pelo WhatsApp. A equipa LIBERTA confirma o teu lugar.</p>
+      <h3>Inscrição quase feita</h3>
+      <p>O teu código de inscrição:</p>
+      <div class="code" id="code">LIB-0000</div>
+      <p><b>1.</b> Envia já a tua inscrição pelo WhatsApp:</p>
       <div class="actions">
         <a class="btn solid" id="wa" href="#" target="_blank" rel="noopener">Enviar inscrição no WhatsApp</a>
       </div>
+      <p><b>2.</b> Faz o pagamento por transferência e escreve o teu código no descritivo:</p>
+      <div class="pay">
+        <dl>
+          <dt>Valor</dt><dd id="valor">—</dd>
+          <dt>Banco</dt><dd>BAI</dd>
+          <dt>IBAN</dt><dd id="iban">AO06 0040 0000 1594 5885 1021 5</dd>
+          <dt>Titular</dt><dd>ALZENFORM</dd>
+          <dt>Descritivo</dt><dd id="desc">LIB-0000</dd>
+        </dl>
+        <div class="actions"><button class="btn ghost small" id="copy-iban" type="button">Copiar IBAN</button></div>
+      </div>
+      <p class="deadline" id="deadline">Tens 3 horas para enviar o comprovativo. Depois disso, a inscrição é cancelada.</p>
+      <p><b>3.</b> Depois de pagares, envia o comprovativo (foto ou PDF) pelo WhatsApp:</p>
+      <div class="actions">
+        <a class="btn solid" id="wa-comp" href="#" target="_blank" rel="noopener">Enviar comprovativo no WhatsApp</a>
+      </div>
+      <p>A equipa LIBERTA confirma o teu lugar quando receber o comprovativo.</p>
       <p><b>Traz uma amiga.</b> Envia-lhe o convite para ela também se inscrever:</p>
       <div class="actions">
         <a class="btn ghost" id="share" href="#" target="_blank" rel="noopener">Partilhar no WhatsApp</a>
@@ -178,9 +224,11 @@ footer b{color:var(--wine-deep)}
     <h2>Perguntas frequentes</h2>
     <details><summary>Preciso de ser mãe para participar?</summary><p>Não. O LIBERTA nasce da experiência da maternidade, mas está aberto a todas as mulheres.</p></details>
     <details><summary>Posso levar uma amiga?</summary><p>Sim, e queremos muito. Como os lugares são limitados, ela também tem de se inscrever. No fim da tua inscrição tens um convite pronto para lhe enviar.</p></details>
-    <details><summary>Quanto custa?</summary><p>A informação sobre a entrada será anunciada em breve.</p></details>
+    <details><summary>Quanto custa?</summary><p>Há dois pacotes: 50.000 Kz, com a participação no LIBERTA, e 80.000 Kz, com participação, brindes e fato de treino.</p></details>
+    <details><summary>Como pago?</summary><p>Por transferência para o IBAN da ALZENFORM (BAI), com o teu código de inscrição no descritivo. Depois envias o comprovativo pelo WhatsApp.</p></details>
+    <details><summary>E se não pagar dentro de 3 horas?</summary><p>A inscrição é cancelada e o lugar fica livre para outra pessoa. Podes voltar a inscrever-te, se ainda houver lugares.</p></details>
     <details><summary>E se os lugares esgotarem?</summary><p>Ficas na lista de espera e avisamos-te se abrir uma vaga.</p></details>
-    <details><summary>Como sei que a minha inscrição ficou feita?</summary><p>Depois de enviares a mensagem no WhatsApp, a equipa responde a confirmar o teu lugar.</p></details>
+    <details><summary>Como sei que a minha inscrição ficou feita?</summary><p>Quando a equipa receber o teu comprovativo no WhatsApp, responde a confirmar o teu lugar.</p></details>
   </section>
 
 </main>
@@ -193,19 +241,22 @@ footer b{color:var(--wine-deep)}
 
 <script>
 (function(){
-  var WA = "244959248980"; // número que recebe as inscrições (confirmar com a equipa)
+  var WA = "244959248980"; // WhatsApp da ALZENFORM (confirmado)
   var f = document.getElementById("f"), err = document.getElementById("err"), done = document.getElementById("done");
   var invite = "Vou ao LIBERTA — Eu também existo, um encontro para mulheres a 19 de dezembro, das 9h às 16h, na Maison BH. São só 50 lugares, vem comigo! Inscreve-te aqui: " + location.href.split("#")[0];
 
   f.addEventListener("submit", function(e){
     e.preventDefault();
     var nome = f.nome.value.trim(), tel = f.tel.value.trim();
-    if(!nome || tel.replace(/\D/g,"").length < 9){
-      err.textContent = !nome ? "Escreve o teu nome." : "Escreve um número de telefone com pelo menos 9 dígitos.";
-      (!nome ? f.nome : f.tel).focus();
-      return;
-    }
+    var pk = (f.querySelector('input[name="pacote"]:checked')||{}).value || "";
+    var tam = f.tam.value;
+    var msg = !nome ? ["Escreve o teu nome.", f.nome]
+      : tel.replace(/\D/g,"").length < 9 ? ["Escreve um número de telefone com pelo menos 9 dígitos.", f.tel]
+      : !pk ? ["Escolhe um pacote.", document.getElementById("pk1")]
+      : (pk === "80.000 Kz" && !tam) ? ["Escolhe o tamanho do fato de treino.", f.tam] : null;
+    if(msg){ err.textContent = msg[0]; msg[1].focus(); return; }
     err.textContent = "";
+    var code = "LIB-" + String(Math.floor(1000 + Math.random()*9000));
     var mae = (f.querySelector('input[name="mae"]:checked')||{}).value || "—";
     var lines = [
       "Olá! Quero inscrever-me no LIBERTA — Eu também existo (19 de dezembro, Maison BH).",
@@ -213,13 +264,32 @@ footer b{color:var(--wine-deep)}
       "Telefone: " + tel,
       "Zona: " + (f.zona.value.trim() || "—"),
       "Mãe: " + mae,
-      "Soube por: " + (f.origem.value || "—")
+      "Soube por: " + (f.origem.value || "—"),
+      "Pacote: " + pk + (pk === "80.000 Kz" ? " (fato de treino: " + tam + ")" : ""),
+      "Código: " + code
     ];
+    var limit = new Date(Date.now() + 3*60*60*1000);
+    var hh = String(limit.getHours()).padStart(2,"0") + "h" + String(limit.getMinutes()).padStart(2,"0");
+    document.getElementById("code").textContent = code;
+    document.getElementById("desc").textContent = code;
+    document.getElementById("valor").textContent = pk;
+    document.getElementById("deadline").textContent = "Tens até às " + hh + " (3 horas) para enviar o comprovativo. Depois disso, a inscrição é cancelada.";
+    document.getElementById("wa-comp").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent("Olá! Segue o comprovativo de pagamento da inscrição " + code + " no LIBERTA (" + nome + ", pacote " + pk + ").");
     document.getElementById("wa").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(lines.join("\n"));
     document.getElementById("share").href = "https://wa.me/?text=" + encodeURIComponent(invite);
     f.style.display = "none";
     done.classList.add("show");
     done.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"});
+  });
+
+  document.querySelectorAll('input[name="pacote"]').forEach(function(r){
+    r.addEventListener("change", function(){ document.getElementById("tam-wrap").hidden = !document.getElementById("pk2").checked; });
+  });
+  document.getElementById("copy-iban").addEventListener("click", function(){
+    var b = this;
+    try{
+      navigator.clipboard.writeText("AO06004000001594588510215").then(function(){ b.textContent = "IBAN copiado"; }, function(){ b.textContent = "Copia o IBAN à mão"; });
+    }catch(x){ b.textContent = "Copia o IBAN à mão"; }
   });
 
   document.getElementById("copy").addEventListener("click", function(){
